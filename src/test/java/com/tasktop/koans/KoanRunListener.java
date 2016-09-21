@@ -27,17 +27,27 @@ import org.junit.runner.notification.RunListener;
 public class KoanRunListener extends RunListener {
 
 	private Failure firstFailure;
+	private Stopper stopper;
+
+	public KoanRunListener(Stopper stopper){
+		this.stopper = stopper;
+	}
 
 	@Override
 	public void testFailure(Failure failure) throws Exception {
 		if (firstFailure == null) {
 			firstFailure = failure;
+			PathToEnlightment pathToEnlightment = new PathToEnlightment(firstFailure);
+			List<String> path = pathToEnlightment.getPath();
+			path.forEach(step -> System.out.println(step));
+
+			stopper.pleaseStop();
 		}
 	}
 
 	@Override
 	public void testRunFinished(Result result) throws Exception {
-		PathToEnlightment pathToEnlightment = new PathToEnlightment(result, firstFailure);
+		Enlightment pathToEnlightment = new Enlightment(result);
 		List<String> path = pathToEnlightment.getPath();
 		path.forEach(step -> System.out.println(step));
 	}
