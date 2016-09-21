@@ -12,5 +12,3 @@ libraryDependencies ++= Seq(
   "org.javassist" % "javassist" % "3.20.0-GA" % "test",
   "com.novocode" % "junit-interface" % "0.11" % "test"
 )
-
-testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v", "--tests=findAboutKoansFile")

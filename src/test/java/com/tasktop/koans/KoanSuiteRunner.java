@@ -29,9 +29,11 @@ public class KoanSuiteRunner extends Suite {
 
 	private final KoanRunListener runListener;
 
+	private Stopper stopper = new Stopper();
+
 	public KoanSuiteRunner(Class<?> klass) throws InitializationError {
 		super(klass, new KoanRunnerBuilder());
-		runListener = new KoanRunListener();
+		runListener = new KoanRunListener(stopper);
 	}
 
 	private static class KoanRunnerBuilder extends RunnerBuilder {
@@ -56,6 +58,7 @@ public class KoanSuiteRunner extends Suite {
 
 	@Override
 	public void run(RunNotifier notifier) {
+		stopper.addNotifier(notifier);
 		notifier.addListener(runListener);
 		super.run(notifier);
 	}

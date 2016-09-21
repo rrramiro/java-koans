@@ -46,29 +46,14 @@ import com.google.common.io.Files;
 
 public class PathToEnlightment {
 
-	private final Result result;
-
 	private final Failure firstFailure;
 
-	public PathToEnlightment(Result result, Failure firstFailure) {
-		this.result = result;
+	public PathToEnlightment(Failure firstFailure) {
 		this.firstFailure = firstFailure;
 	}
 
 	public List<String> getPath() {
-		if (result.wasSuccessful()) {
-			return getEnlightment();
-		}
 		return producePathToEnlightment();
-	}
-
-	private List<String> getEnlightment() {
-		try (InputStream in = PathToEnlightment.class.getResourceAsStream("/enlightment.txt")) {
-			List<String> lines = CharStreams.readLines(new InputStreamReader(in, Charsets.UTF_8));
-			return lines.stream().map(line -> color(CYAN, line)).collect(Collectors.toList());
-		} catch (IOException shouldnotHappen) {
-			throw new IllegalStateException(shouldnotHappen);
-		}
 	}
 
 	private List<String> producePathToEnlightment() {
@@ -76,7 +61,7 @@ public class PathToEnlightment {
 		observate(path);
 		encourage(path);
 		guideThroughError(path);
-		aZenlikeStatement(path);
+		//aZenlikeStatement(path);
 		showProgress(path);
 		storeFailures();
 		return path;
@@ -99,8 +84,8 @@ public class PathToEnlightment {
 			} else if (lastEqualFails >= 2) {
 				path.add(color(CYAN, "  Do not lose hope."));
 			} else if (lastEqualFails == 0) {
-				int success = result.getRunCount() - result.getFailureCount();
-				path.add(color(CYAN, "  You are progressing. Excellent. " + success + " koans completed."));
+				//int success = result.getRunCount() - result.getFailureCount();
+				//path.add(color(CYAN, "  You are progressing. Excellent. " + success + " koans completed."));
 			}
 		}
 	}
@@ -127,71 +112,71 @@ public class PathToEnlightment {
 		path.add(color(RED, "  " + firstFailure.getDescription()));
 	}
 
-	private void aZenlikeStatement(List<String> path) {
-		path.add(color(GREEN, ""));
-		switch (result.getFailureCount() % 10) {
-		case 0:
-			path.add("mountains are merely mountains");
-			break;
-		case 1:
-			path.add("learn the rules so you know how to break them properly");
-			break;
-		case 2:
-			path.add("learn the rules so you know how to break them properly");
-			break;
-		case 3:
-			path.add("remember that silence is sometimes the best answer");
-			break;
-		case 4:
-			path.add("remember that silence is sometimes the best answer");
-			break;
-		case 5:
-			path.add("sleep is the best meditation");
-			break;
-		case 6:
-			path.add("sleep is the best meditation");
-			break;
-		case 7:
-			path.add("when you lose, don't lose the lesson");
-			break;
-		case 8:
-			path.add("when you lose, don't lose the lesson");
-			break;
-		default:
-			path.add("things are not what they appear to be: nor are they otherwise");
-			break;
-		}
-	}
+//	private void aZenlikeStatement(List<String> path) {
+//		path.add(color(GREEN, ""));
+//		switch (result.getFailureCount() % 10) {
+//		case 0:
+//			path.add("mountains are merely mountains");
+//			break;
+//		case 1:
+//			path.add("learn the rules so you know how to break them properly");
+//			break;
+//		case 2:
+//			path.add("learn the rules so you know how to break them properly");
+//			break;
+//		case 3:
+//			path.add("remember that silence is sometimes the best answer");
+//			break;
+//		case 4:
+//			path.add("remember that silence is sometimes the best answer");
+//			break;
+//		case 5:
+//			path.add("sleep is the best meditation");
+//			break;
+//		case 6:
+//			path.add("sleep is the best meditation");
+//			break;
+//		case 7:
+//			path.add("when you lose, don't lose the lesson");
+//			break;
+//		case 8:
+//			path.add("when you lose, don't lose the lesson");
+//			break;
+//		default:
+//			path.add("things are not what they appear to be: nor are they otherwise");
+//			break;
+//		}
+//	}
 
 	private void showProgress(List<String> path) {
 		StringBuilder pathSoFar = new StringBuilder();
 		pathSoFar.append(color(GREEN, "your path thus far ["));
-		appendPathSoFar(pathSoFar);
+		//appendPathSoFar(pathSoFar);
 		pathSoFar.append(color(GREEN, "]"));
 		pathSoFar.append(color(BLACK, " "));
-		pathSoFar.append(result.getRunCount() - result.getFailureCount() + "/" + result.getRunCount());
+		//pathSoFar.append(result.getRunCount() - result.getFailureCount() + "/" + result.getRunCount());
 		path.add(pathSoFar.toString());
 	}
 
-	private void appendPathSoFar(StringBuilder pathSoFar) {
-		int barWidth = 50;
-		BigDecimal scale = BigDecimal.valueOf(barWidth).divide(BigDecimal.valueOf(result.getRunCount()), DECIMAL32);
-		int passCount = result.getRunCount() - result.getFailureCount();
-		int happySteps = scale.multiply(BigDecimal.valueOf(passCount)).intValue();
-		if (happySteps == 0 && passCount > 0) {
-			happySteps = 1;
-		}
-		for (int i = 0; i < happySteps; i++) {
-			pathSoFar.append(".");
-		}
-		if (!result.wasSuccessful()) {
-			pathSoFar.append(color(RED, "X"));
-			int dashes = barWidth - 1 - happySteps;
-			for (int i = 0; i < dashes; i++) {
-				pathSoFar.append(color(CYAN, "_"));
-			}
-		}
-	}
+//	private void appendPathSoFar(StringBuilder pathSoFar) {
+//		int barWidth = 50;
+//		BigDecimal scale = BigDecimal.valueOf(barWidth).divide(BigDecimal.valueOf(result.getRunCount()), DECIMAL32);
+//		int passCount = result.getRunCount() - result.getFailureCount();
+//		int happySteps = scale.multiply(BigDecimal.valueOf(passCount)).intValue();
+//		if (happySteps == 0 && passCount > 0) {
+//			happySteps = 1;
+//		}
+//		for (int i = 0; i < happySteps; i++) {
+//			pathSoFar.append(".");
+//		}
+//		if (!result.wasSuccessful()) {
+//			pathSoFar.append(color(RED, "X"));
+//			int dashes = barWidth - 1 - happySteps;
+//			for (int i = 0; i < dashes; i++) {
+//				pathSoFar.append(color(CYAN, "_"));
+//			}
+//		}
+//	}
 
 	private String color(Color color, String toColor) {
 		if (Boolean.getBoolean("enable.ansi")) {
