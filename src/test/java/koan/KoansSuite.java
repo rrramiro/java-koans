@@ -1,11 +1,11 @@
 package koan;
 
+import advanced.AboutMocks;
 import beginner.*;
+import com.tasktop.koans.KoanSuiteRunner;
 import intermediate.*;
-import advanced.*;
 import java7.*;
 import java8.*;
-import com.tasktop.koans.KoanSuiteRunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
