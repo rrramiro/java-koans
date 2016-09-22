@@ -1,7 +1,5 @@
 package koan;
 
-import static org.junit.Assert.fail;
-
 public class KoanConstants {
     private KoanConstants(){}
 
